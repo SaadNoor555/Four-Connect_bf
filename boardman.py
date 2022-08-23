@@ -10,5 +10,5 @@ def generate_filled_cols(col):
 	return filled_cols
 
 def show_board(board):
-	print(board)
+	print(np.flip(board,0))
 
