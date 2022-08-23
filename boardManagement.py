@@ -7,6 +7,7 @@ BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
+YELLOW = (255, 255, 0)
 RADIUS = 0.45*SQUARE_LEN
 
 def makeBoard(w=7, h=6):
@@ -19,6 +20,7 @@ def dropPiece(board, col, turn):
         row = getEmptyRow(board, col)
         board[row][col] = turn
         return row
+    else : return -1
 
 def getEmptyRow(board, col):
     for row in range(H-1, -1, -1):
@@ -81,4 +83,12 @@ def draw_board(board, screen):
     for col in range(W):
         for row in range(H):
             pygame.draw.rect(screen, BLUE, (col*SQUARE_LEN, row*SQUARE_LEN+SQUARE_LEN, SQUARE_LEN, SQUARE_LEN))
-            pygame.draw.circle(screen, BLACK, (int(col*SQUARE_LEN+SQUARE_LEN/2), int(row*SQUARE_LEN+(3*SQUARE_LEN/2))), RADIUS)
+            if board[row][col]==0:
+                color = BLACK
+            elif board[row][col]==1:
+                color = RED
+            else:
+                color = YELLOW
+            pygame.draw.circle(screen, color, (int(col*SQUARE_LEN+SQUARE_LEN/2), int(row*SQUARE_LEN+(3*SQUARE_LEN/2))), RADIUS)
+    pygame.display.update()
+    
