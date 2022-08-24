@@ -9,20 +9,17 @@ turn = 1
 board = makeBoard()
 # graphics()
 screen = board_graphics_init()
+pygame.display.set_caption('Connect4')
 draw_board(board, screen)
-while not GAMEOVER:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and not GAMEOVER:
             print(event.pos)
             print("down")
             col = int(math.floor(event.pos[0]/SQUARE_LEN))
-            # col = int(input("Player "+ str(turn) +" turn place (0-6):"))
-            while(col<0 and col>6):
-                print("invalid input, try again")
-                col = int(input("Player "+ str(turn) +" turn place (0-6):"))
 
             row = dropPiece(board, col, turn)
             if row == -1:
@@ -33,5 +30,6 @@ while not GAMEOVER:
             if checkWin(board, col, row, turn)==True: 
                 print("player "+str(turn)+" has won")
                 GAMEOVER = True
+                show_msg("player "+str(turn)+" has won", screen)
             if turn==1: turn=2
             else: turn=1

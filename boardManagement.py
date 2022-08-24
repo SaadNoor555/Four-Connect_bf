@@ -1,3 +1,4 @@
+
 import numpy as np
 import pygame
 
@@ -8,6 +9,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
+WHITE = (255, 255, 255)
 RADIUS = 0.45*SQUARE_LEN
 
 def makeBoard(w=7, h=6):
@@ -91,4 +93,10 @@ def draw_board(board, screen):
                 color = YELLOW
             pygame.draw.circle(screen, color, (int(col*SQUARE_LEN+SQUARE_LEN/2), int(row*SQUARE_LEN+(3*SQUARE_LEN/2))), RADIUS)
     pygame.display.update()
-    
+
+def show_msg(txt, screen):
+    font = pygame.font.Font(None, 80)
+    text = font.render(txt, True, (WHITE))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, SQUARE_LEN//2))
+    screen.blit(text, text_rect)
+    pygame.display.update()
