@@ -10,6 +10,7 @@ board = makeBoard()
 # graphics()
 screen = board_graphics_init()
 pygame.display.set_caption('Connect4')
+main_menu(screen)
 draw_board(board, screen)
 while True:
     for event in pygame.event.get():
@@ -28,8 +29,8 @@ while True:
             draw_board(board, screen)
             print(board)
             if checkWin(board, col, row, turn)==True: 
-                print("player "+str(turn)+" has won")
+                print("player "+str(turn)+" has won!")
                 GAMEOVER = True
-                show_msg("player "+str(turn)+" has won", screen)
+                show_msg("Player "+str(turn)+" has won!", screen)
             if turn==1: turn=2
             else: turn=1

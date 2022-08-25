@@ -1,6 +1,7 @@
 
 import numpy as np
 import pygame
+import sys
 
 W, H = 7, 6
 SQUARE_LEN = 100
@@ -81,6 +82,30 @@ def board_graphics_init():
     screen = pygame.display.set_mode((B_W, B_H))
     return screen
 
+def main_menu(screen):
+    font = pygame.font.Font(None, 80)
+    text = font.render('New Game', True, (WHITE))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3))
+    screen.blit(text, text_rect)
+    text = font.render('Continue', True, (WHITE))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+100))
+    screen.blit(text, text_rect)
+    text = font.render('Stats', True, (WHITE))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+200))
+    screen.blit(text, text_rect)
+    pygame.display.update()
+    # mouse = pygame.mouse.get_pos()
+    while True:  
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            # For events that occur upon clicking the mouse (left click) 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print(event.pos)
+                print(W*SQUARE_LEN, H*SQUARE_LEN)
+                if (W*SQUARE_LEN//2)-50 <= event.pos[0] <= (W*SQUARE_LEN//2)+50 and (H*SQUARE_LEN//3)-30 <= event.pos[1] <= (H*SQUARE_LEN//3)+30:
+                        return
+
 def draw_board(board, screen):
     for col in range(W):
         for row in range(H):
@@ -95,7 +120,7 @@ def draw_board(board, screen):
     pygame.display.update()
 
 def show_msg(txt, screen):
-    font = pygame.font.Font(None, 80)
+    font = pygame.font.SysFont('Verdana', 70)
     text = font.render(txt, True, (WHITE))
     text_rect = text.get_rect(center=(W*SQUARE_LEN//2, SQUARE_LEN//2))
     screen.blit(text, text_rect)
