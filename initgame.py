@@ -82,6 +82,7 @@ while not game_over:
 
         if(check_game_over(gameboard, AI_piece, "AI")):
             game_over = True
+            break
 
     boardman.show_board(gameboard)
     turn = (turn+1) %2
@@ -99,3 +100,5 @@ while not game_over:
 
 
 boardman.show_board(gameboard)
+
+commit check
