@@ -34,19 +34,20 @@ def board_graphics_init():
 
 
 def draw_board(board, screen):
-    for col in range(W):
-        for row in range(H):
-            pygame.draw.rect(screen, BLUE, (col*SQUARE_LEN, row*SQUARE_LEN+SQUARE_LEN, SQUARE_LEN, SQUARE_LEN))
-            if board[row][col]==0:
-                color = BLACK
-            elif board[row][col]==1:
-                color = RED
-            else:
-                color = YELLOW
-            pygame.draw.circle(screen, color, (int(col*SQUARE_LEN+SQUARE_LEN/2), int(row*SQUARE_LEN+(3*SQUARE_LEN/2))), RADIUS)
-    pygame.display.update()
+	board = np.flip(board,0)
+	for col in range(W):
+		for row in range(H):
+			pygame.draw.rect(screen, BLUE, (col*SQUARE_LEN, row*SQUARE_LEN+SQUARE_LEN, SQUARE_LEN, SQUARE_LEN))
+			if board[row][col]==0:
+				color = BLACK
+			elif board[row][col]==1:
+				color = RED
+			else:
+				color = YELLOW
+			pygame.draw.circle(screen, color, (int(col*SQUARE_LEN+SQUARE_LEN/2), int(row*SQUARE_LEN+(3*SQUARE_LEN/2))), RADIUS)
+	pygame.display.update()
 
-	
+
 def show_msg(txt, screen):
     font = pygame.font.SysFont('Verdana', 70)
     text = font.render(txt, True, (WHITE))
