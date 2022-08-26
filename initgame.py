@@ -102,7 +102,7 @@ while not game_over:
                 boardman.show_msg("Player "+str(turn)+" has won!", screen)
                 break
 
-            turn = (turn+1)%2
+            turn = (turn+1)%2 
 
 
 # place_piece(gameboard, 0, 4, 1)
@@ -114,5 +114,5 @@ while not game_over:
 # print(filled_cols)
 
 
-boardman.show_board(gameboard)
+# boardman.show_board(gameboard)
 
