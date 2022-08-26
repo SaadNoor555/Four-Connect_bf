@@ -1,5 +1,8 @@
 
 import boardman
+import math
+import pygame
+import sys
 
 ROW_no= 6
 COLUMN_no = 7
@@ -12,6 +15,7 @@ BLANK = 0
 PLAYER_piece= 1
 AI_piece = 2
 
+screen = boardman.board_graphics_init()
 
 gameboard = boardman.generate_board(ROW_no, COLUMN_no)
 filled_cols = boardman.generate_filled_cols(COLUMN_no)
@@ -27,7 +31,6 @@ def place_piece(board, row, col, piece):
 
 def get_next_open_row(col):
 	return int(int(filled_cols[col])) 
-
 
 def winning_move(board, piece):
 	# Check horizontal
@@ -61,7 +64,6 @@ def check_game_over(board, player, name):
     else:
         return False
     
-
 while not game_over: 
     if turn == PLAYER_turn:
         col = int(input("Player input column no: "))
@@ -87,6 +89,36 @@ while not game_over:
     boardman.show_board(gameboard)
     turn = (turn+1) %2
 
+# while not game_over:
+#     current_piece = PLAYER_piece
+#     current_name = "PLAYER"
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             sys.exit()
+#         if(turn==0):
+#           current_piece = PLAYER_piece
+#           current_name = "PLAYER"
+#         else: 
+#           current_piece = AI_piece
+#           current_name = "AI"
+
+
+#         if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
+#             print(event.pos)
+#             print("down")
+#             col = int(math.floor(event.pos[0]/boardman.SQUARE_LEN))
+#             row = place_piece(gameboard, col, turn, current_piece)
+#             if row == -1:
+#                 print('cannot make move here, try again')
+#                 continue
+#             boardman.draw_board(gameboard, screen)
+#             print(gameboard)
+#             if check_game_over(gameboard, turn, current_name)==True: 
+#                 print("player "+str(turn)+" has won!")
+#                 GAMEOVER = True
+#                 boardman.show_msg("Player "+str(turn)+" has won!", screen)
+#             if turn==1: turn=2
+#             else: turn=1
 
 
 
@@ -101,4 +133,3 @@ while not game_over:
 
 boardman.show_board(gameboard)
 
-commit check
