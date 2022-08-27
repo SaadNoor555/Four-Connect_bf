@@ -13,6 +13,9 @@ YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 RADIUS = 0.45*SQUARE_LEN
 
+AI_TURN = 2
+LVL = 5
+
 def makeBoard(w=7, h=6):
     board = [[0 for i in range(w)] for j in range(h)]
     W, H = w, h
@@ -83,7 +86,8 @@ def board_graphics_init():
     screen = pygame.display.set_mode((B_W, B_H))
     return screen
 
-def main_menu(screen):
+def menu_gui(screen):
+    screen = board_graphics_init()
     font = pygame.font.Font(None, 80)
     text = font.render('New Game', True, (WHITE))
     text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3))
@@ -102,6 +106,9 @@ def main_menu(screen):
     screen.blit(text, text_rect)
 
     pygame.display.update()
+
+def main_menu(screen):
+    menu_gui(screen)
     # mouse = pygame.mouse.get_pos()
     while True:  
         for event in pygame.event.get():
@@ -121,7 +128,95 @@ def main_menu(screen):
                 elif (W*SQUARE_LEN//2)-w_pad <= event.pos[0] <= (W*SQUARE_LEN//2)+w_pad and (H*SQUARE_LEN//3+240)-h_pad <= event.pos[1] <= (H*SQUARE_LEN//3+240)+h_pad:
                     return 4
 
-         
+def settings_gui(screen, AIT, LEVEL):
+    screen = board_graphics_init()
+    font = pygame.font.Font(None, 60)
+    text = font.render('AI Playes as:', True, (WHITE))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3))
+    screen.blit(text, text_rect)
+
+    font = pygame.font.Font(None, 45)
+    text = font.render('Player 1', True, (RED))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2-100, H*SQUARE_LEN//3+50))
+    screen.blit(text, text_rect)
+
+    text = font.render('Player 2', True, (YELLOW))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2+100, H*SQUARE_LEN//3+50))
+    screen.blit(text, text_rect)
+
+    font = pygame.font.Font(None, 60)
+    text = font.render('AI Difficulty:', True, (WHITE))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+150))
+    screen.blit(text, text_rect)
+
+    font = pygame.font.Font(None, 45)
+    text = font.render('Easy', True, (GREEN))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2-120, H*SQUARE_LEN//3+200))
+    screen.blit(text, text_rect)
+
+    text = font.render('Medium', True, (YELLOW))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+200))
+    screen.blit(text, text_rect)
+
+    text = font.render('Hard', True, (RED))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2+120, H*SQUARE_LEN//3+200))
+    screen.blit(text, text_rect)
+
+    font = pygame.font.Font(None, 60)
+    text = font.render('SAVE', True, (GREEN))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+450))
+    screen.blit(text, text_rect)
+
+    if AIT==1:
+        pygame.draw.rect(screen, (GREEN), (W*SQUARE_LEN//2-170, H*SQUARE_LEN//3+30, W*SQUARE_LEN//2-215, H*SQUARE_LEN//3-150), 2)
+    elif AIT==2:
+        pygame.draw.rect(screen, (GREEN), (W*SQUARE_LEN//2+35, H*SQUARE_LEN//3+30, W*SQUARE_LEN//2-215, H*SQUARE_LEN//3-150), 2)
+    if LEVEL==3:
+        pygame.draw.rect(screen, (GREEN), (W*SQUARE_LEN//2-170, H*SQUARE_LEN//3+175, W*SQUARE_LEN//2-250, H*SQUARE_LEN//3-150), 2)
+    elif LEVEL == 5:
+        pygame.draw.rect(screen, (GREEN), (W*SQUARE_LEN//2-58, H*SQUARE_LEN//3+175, W*SQUARE_LEN//2-230, H*SQUARE_LEN//3-150), 2)
+    elif LEVEL == 8:
+        pygame.draw.rect(screen, (GREEN), (W*SQUARE_LEN//2+70, H*SQUARE_LEN//3+175, W*SQUARE_LEN//2-250, H*SQUARE_LEN//3-150), 2)
+    
+    pygame.display.update()
+
+
+def settings(screen, AIT, LEVEL):
+    settings_gui(screen, AIT, LEVEL)
+    while True:  
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                f = open("config.txt", "w+")
+                print(AIT, file=f)
+                print(LEVEL, file=f)
+                f.close()
+                sys.exit()
+            # For events that occur upon clicking the mouse (left click) 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print(event.pos)
+                print(W*SQUARE_LEN, H*SQUARE_LEN)
+                w_pad, h_pad = 50, 30
+                if (W*SQUARE_LEN//2-100)-w_pad <= event.pos[0] <= (W*SQUARE_LEN//2-100)+w_pad and (H*SQUARE_LEN//3+50)-h_pad <= event.pos[1] <= (H*SQUARE_LEN//3+50)+h_pad:
+                    AIT = 1
+                    settings_gui(screen, AIT, LEVEL)
+                elif (W*SQUARE_LEN//2+100)-w_pad <= event.pos[0] <= (W*SQUARE_LEN//2+100)+w_pad and (H*SQUARE_LEN//3+50)-h_pad <= event.pos[1] <= (H*SQUARE_LEN//3+50)+h_pad:
+                    AIT = 2
+                    settings_gui(screen, AIT, LEVEL)
+                elif (W*SQUARE_LEN//2-120)-w_pad <= event.pos[0] <= (W*SQUARE_LEN//2-120)+w_pad and (H*SQUARE_LEN//3+200)-h_pad <= event.pos[1] <= (H*SQUARE_LEN//3+200)+h_pad:
+                    LEVEL = 3
+                    settings_gui(screen, AIT, LEVEL)
+                elif (W*SQUARE_LEN//2)-w_pad <= event.pos[0] <= (W*SQUARE_LEN//2)+w_pad and (H*SQUARE_LEN//3+200)-h_pad <= event.pos[1] <= (H*SQUARE_LEN//3+200)+h_pad:
+                    LEVEL = 5
+                    settings_gui(screen, AIT, LEVEL)
+                elif (W*SQUARE_LEN//2+120)-w_pad <= event.pos[0] <= (W*SQUARE_LEN//2+120)+w_pad and (H*SQUARE_LEN//3+200)-h_pad <= event.pos[1] <= (H*SQUARE_LEN//3+200)+h_pad:
+                    LEVEL = 8
+                    settings_gui(screen, AIT, LEVEL)
+                elif (W*SQUARE_LEN//2)-100 <= event.pos[0] <= (W*SQUARE_LEN//2)+100 and (H*SQUARE_LEN//3+450)-50 <= event.pos[1] <= (H*SQUARE_LEN//3+450)+50:
+                    f = open("config.txt", "w+")
+                    print(AIT, file=f)
+                    print(LEVEL, file=f)
+                    f.close()
+                    return
 
 def draw_board(board, screen):
     for col in range(W):

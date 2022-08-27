@@ -28,12 +28,22 @@ def load_game():
                     p_board.append(x)
                     x = []
         p_board = np.array(p_board)
-        if is_terminal_node(p_board):
+        if is_terminal_node(p_board)!=-1:
             print('terminal')
             p_board = []
     except:
         return -1, -1, []
     return pvp, turn, p_board
+
+def load_config():
+    try:
+        f = open("config.txt", "r")
+        AI_TURN = int(f.readline())
+        LVL = int(f.readline())
+        f.close()
+    except:
+        AI_TURN, LVL= 2, 5
+    return AI_TURN, LVL
 
 def playC4(pvp=1, curr=1, init_board=[]):
     GAMEOVER = False
@@ -45,6 +55,7 @@ def playC4(pvp=1, curr=1, init_board=[]):
     print(board)
     draw_board(board, screen)
     moves = []
+    AI_TURN, LVL = load_config()
     while True:
         for event in pygame.event.get():
             
@@ -55,9 +66,9 @@ def playC4(pvp=1, curr=1, init_board=[]):
             if event.type == pygame.MOUSEMOTION and not GAMEOVER:
                 posX = event.pos[0]
                 pygame.draw.rect(screen, BLACK, (0, 0, W*SQUARE_LEN, SQUARE_LEN))
-                if turn == 1:
+                if turn == 1 and (pvp==1 or AI_TURN!=1):
                     pygame.draw.circle(screen, RED, (posX, SQUARE_LEN//2), RADIUS)
-                elif pvp == 1 and turn==2:
+                elif turn==2 and (pvp==1 or AI_TURN!=2):
                     pygame.draw.circle(screen, YELLOW, (posX, SQUARE_LEN//2), RADIUS)
             pygame.display.update()
 
@@ -74,12 +85,13 @@ def playC4(pvp=1, curr=1, init_board=[]):
                     start()
                 if event.button==1 and not GAMEOVER:
                     print("down")
-                    if turn==1:
+                    print(AI_TURN)
+                    if pvp==1 and (turn==1 or turn==2):
                         col = int(math.floor(event.pos[0]/SQUARE_LEN))
-                    elif pvp==0 and turn==2:
+                    elif pvp==0 and turn==AI_TURN:
                         show_msg("AI's Turn", screen)
-                        col, minimax_score = minimax(board, 5, -math.inf, math.inf, True)
-                    elif pvp==1 and turn==2:
+                        col, minimax_score = minimax(board, LVL, -math.inf, math.inf, True)
+                    elif pvp==0 and turn!=AI_TURN:
                         col = int(math.floor(event.pos[0]/SQUARE_LEN))
                     row = dropPiece(board, col, turn)
                     if row == -1:
@@ -119,6 +131,10 @@ def start():
             playC4(pvp, turn, init_board)
         else:
             start()
+    elif choice==4:
+        AI_TURN, LVL= load_config()
+        settings(screen, AI_TURN, LVL)
+        start()
     else:
         print(choice)
 
