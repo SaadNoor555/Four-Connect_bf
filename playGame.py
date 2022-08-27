@@ -69,9 +69,10 @@ def playC4(pvp=1, curr=1, init_board=[]):
                         draw_board(board, screen)
                         if turn==1: turn=2
                         else: turn=1
-
+                        
+                if GAMEOVER and event.pos[1]//SQUARE_LEN==0:
+                    start()
                 if event.button==1 and not GAMEOVER:
-                    print(event.pos)
                     print("down")
                     if turn==1:
                         col = int(math.floor(event.pos[0]/SQUARE_LEN))
@@ -104,6 +105,7 @@ def playC4(pvp=1, curr=1, init_board=[]):
 
 # graphics()
 def start():
+    screen = board_graphics_init()
     choice = main_menu(screen)
     if choice==1:
         playC4(pvp=1)

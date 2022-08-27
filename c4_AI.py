@@ -11,28 +11,6 @@ PLAYER_PIECE = 1
 AI_PIECE = 2
 WINDOW_LEN = 4
 
-def winning_move(board, piece):
-    for c in range(len(board[0])-3):
-        for r in range(len(board)):
-            if board[r][c]==piece and board[r][c+1]==piece and board[r][c+2]==piece and board[r][c+3]==piece:
-                return True
-
-    for c in range(len(board[0])):
-        for r in range(len(board)-3):
-            if board[r][c]==piece and board[r+1][c]==piece and board[r+2][c]==piece and board[r+3][c]==piece:
-                return True
-
-    for c in range(len(board[0])-3):
-        for r in range(len(board)-3):
-            if board[r][c]==piece and board[r+1][c+1]==piece and board[r+2][c+2]==piece and board[r+3][c+3]==piece:
-                return True
-
-    for c in range(len(board[0])-3):
-        for r in range(3, len(board)):
-            if board[r][c]==piece and board[r-1][c+1]==piece and board[r-2][c+2]==piece and board[r-3][c+3]==piece:
-                return True
-
-
 def evaluate_window(window, piece):
 	score = 0
 	opp_piece = PLAYER_PIECE
@@ -48,7 +26,7 @@ def evaluate_window(window, piece):
 
 	if window.count(opp_piece) == 3 and window.count(EMPTY) == 1:
 		score -= 4
-
+		
 	return score
 
 def score_position(board, piece):
@@ -87,16 +65,23 @@ def score_position(board, piece):
 	return score
 
 def is_terminal_node(board):
-	return winning_move(board, PLAYER_PIECE) or winning_move(board, AI_PIECE) or len(get_valid_locations(board)) == 0
+	for r in range(len(board)):
+		for c in range(len(board[0])):
+			if board[r][c]!=0:
+				if checkWin(board, c, r, board[r][c]):
+					return board[r][c]
+	if len(get_valid_locations(board))==0:
+		return 0
+	return -1
 
 def minimax(board, depth, alpha, beta, maximizingPlayer):
 	valid_locations = get_valid_locations(board)
 	is_terminal = is_terminal_node(board)
-	if depth == 0 or is_terminal:
-		if is_terminal:
-			if winning_move(board, AI_PIECE):
+	if depth == 0 or is_terminal!=-1:
+		if is_terminal!=-1:
+			if is_terminal==AI_PIECE:
 				return (None, 100000000000000)
-			elif winning_move(board, PLAYER_PIECE):
+			elif is_terminal==PLAYER_PIECE:
 				return (None, -10000000000000)
 			else: # Game is over, no more valid moves
 				return (None, 0)
