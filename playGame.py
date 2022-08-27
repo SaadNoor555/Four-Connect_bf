@@ -90,7 +90,8 @@ def playC4(pvp=1, curr=1, init_board=[]):
                         col = int(math.floor(event.pos[0]/SQUARE_LEN))
                     elif pvp==0 and turn==AI_TURN:
                         show_msg("AI's Turn", screen)
-                        col, minimax_score = minimax(board, LVL, -math.inf, math.inf, True)
+                        # print('yo', (1, 2)[AI_TURN==1])
+                        col, minimax_score = minimax(board, LVL, -math.inf, math.inf, True, AI_TURN, (1, 2)[AI_TURN==1])
                     elif pvp==0 and turn!=AI_TURN:
                         col = int(math.floor(event.pos[0]/SQUARE_LEN))
                     row = dropPiece(board, col, turn)
