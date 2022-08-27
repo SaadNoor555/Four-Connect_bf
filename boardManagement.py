@@ -29,6 +29,7 @@ def getEmptyRow(board, col):
     for row in range(H-1, -1, -1):
         if board[row][col]==0:
             return row
+    return 6
 
 def isValidMove(board, col):
     return board[0][col] == 0
@@ -133,9 +134,17 @@ def draw_board(board, screen):
             pygame.draw.circle(screen, color, (int(col*SQUARE_LEN+SQUARE_LEN/2), int(row*SQUARE_LEN+(3*SQUARE_LEN/2))), RADIUS)
     pygame.display.update()
 
-def show_msg(txt, screen):
+def show_msg(txt, screen, color=WHITE):
+    pygame.draw.rect(screen, BLACK, (0, 0, W*SQUARE_LEN, SQUARE_LEN))
     font = pygame.font.SysFont('Verdana', 70)
-    text = font.render(txt, True, (WHITE))
+    text = font.render(txt, True, (color))
     text_rect = text.get_rect(center=(W*SQUARE_LEN//2, SQUARE_LEN//2))
     screen.blit(text, text_rect)
     pygame.display.update()
+
+
+def undo_move(board, col):
+    row = getEmptyRow(board, col)+1
+    print('col, row:', col, row)
+    board[row][col] = 0
+    print('undooo\n', board)
