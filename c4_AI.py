@@ -139,17 +139,3 @@ def get_valid_locations(board):
 			valid_locations.append(col)
 	return valid_locations
 
-def pick_best_move(board, piece):
-
-	valid_locations = get_valid_locations(board)
-	best_score = -10000
-	best_col = random.choice(valid_locations)
-	for col in valid_locations:
-		temp_board = board.copy()
-		dropPiece(temp_board, col, piece)
-		score = score_position(temp_board, piece)
-		if score > best_score:
-			best_score = score
-			best_col = col
-
-	return best_col

@@ -68,8 +68,8 @@ def checkWin(board, col, row, turn):
         if board[row+i][col-i]==turn: cnt+=1
         else : break
     for i in range(1, W):
-        if row-i<0 or col+1>=H : break
-        if board[row-i][col+1]==turn : cnt+=1
+        if row-i<0 or col+i>=H : break
+        if board[row-i][col+i]==turn : cnt+=1
         else : break
     if cnt>=4 : return True
 

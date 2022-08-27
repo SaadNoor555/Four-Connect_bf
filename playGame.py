@@ -1,5 +1,4 @@
 from curses.ascii import isdigit
-from inspect import stack
 import math
 from boardManagement import *
 import sys
@@ -36,20 +35,6 @@ def load_game():
         return -1, -1, []
     return pvp, turn, p_board
 
-def make_move(col, board, turn):
-    row = dropPiece(board, col, turn)
-    if row == -1:
-        print('cannot make move here, try again')
-        return
-    draw_board(board, screen)
-    print(board)
-    if checkWin(board, col, row, turn)==True: 
-        print("player "+str(turn)+" has won!")
-        GAMEOVER = True
-        show_msg("Player "+str(turn)+" has won!", screen, (YELLOW,RED)[turn==1])
-    if turn==1: turn=2
-    else: turn=1
-
 def playC4(pvp=1, curr=1, init_board=[]):
     GAMEOVER = False
     turn = curr
@@ -77,7 +62,6 @@ def playC4(pvp=1, curr=1, init_board=[]):
             pygame.display.update()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-
                 if event.button==3:
                     print('stack:', moves)
                     if len(moves)!=0:
@@ -107,6 +91,7 @@ def playC4(pvp=1, curr=1, init_board=[]):
                         print("player "+str(turn)+" has won!")
                         GAMEOVER = True
                         show_msg("Player "+str(turn)+" has won!", screen, (YELLOW,RED)[turn==1])
+                        continue
                     if turn==1: turn=2
                     else: turn=1
                     
@@ -138,3 +123,7 @@ def start():
 screen = board_graphics_init()
 pygame.display.set_caption('Connect4')
 start()
+
+
+# undo in continue
+# config file
