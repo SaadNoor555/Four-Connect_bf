@@ -87,12 +87,19 @@ def main_menu(screen):
     text = font.render('New Game', True, (WHITE))
     text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3))
     screen.blit(text, text_rect)
+    
+    text = font.render('New Game vs AI', True, (WHITE))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+80))
+    screen.blit(text, text_rect)
+
     text = font.render('Continue', True, (WHITE))
-    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+100))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+160))
     screen.blit(text, text_rect)
+
     text = font.render('Stats', True, (WHITE))
-    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+200))
+    text_rect = text.get_rect(center=(W*SQUARE_LEN//2, H*SQUARE_LEN//3+240))
     screen.blit(text, text_rect)
+
     pygame.display.update()
     # mouse = pygame.mouse.get_pos()
     while True:  
@@ -104,7 +111,14 @@ def main_menu(screen):
                 print(event.pos)
                 print(W*SQUARE_LEN, H*SQUARE_LEN)
                 if (W*SQUARE_LEN//2)-50 <= event.pos[0] <= (W*SQUARE_LEN//2)+50 and (H*SQUARE_LEN//3)-30 <= event.pos[1] <= (H*SQUARE_LEN//3)+30:
-                        return
+                    return 1
+                elif (W*SQUARE_LEN//2)-50 <= event.pos[0] <= (W*SQUARE_LEN//2)+50 and (H*SQUARE_LEN//3+80)-30 <= event.pos[1] <= (H*SQUARE_LEN//3+80)+30:
+                    return 2
+                elif (W*SQUARE_LEN//2)-50 <= event.pos[0] <= (W*SQUARE_LEN//2)+50 and (H*SQUARE_LEN//3+160)-30 <= event.pos[1] <= (H*SQUARE_LEN//3+160)+30:
+                    return 3
+                elif (W*SQUARE_LEN//2)-50 <= event.pos[0] <= (W*SQUARE_LEN//2)+50 and (H*SQUARE_LEN//3+240)-30 <= event.pos[1] <= (H*SQUARE_LEN//3+240)+30:
+                    return 4
+                    
 
 def draw_board(board, screen):
     for col in range(W):
